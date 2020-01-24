@@ -1,6 +1,6 @@
 package com.jonathonvanhamlin.springhibernate.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -18,7 +18,7 @@ public class Course {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "instructor_id")
-    @JsonBackReference
+    @JsonIgnoreProperties("courses")
     private Instructor instructor;
 
     public Course() {

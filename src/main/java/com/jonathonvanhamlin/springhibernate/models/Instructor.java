@@ -1,10 +1,8 @@
 package com.jonathonvanhamlin.springhibernate.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,11 +25,10 @@ public class Instructor {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "instructor_detail_id")
-    @JsonManagedReference
     private InstructorDetail instructorDetail;
 
-    @OneToMany(mappedBy = "instructor", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "instructor", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonIgnoreProperties("instructor")
     private List<Course> courses;
 
     public Instructor() {
@@ -91,14 +88,4 @@ public class Instructor {
         this.courses = courses;
     }
 
-    /**
-     * Convenience method for bi-directional relationship
-     */
-//    public void add(Course tempCourse) {
-//        if (courses == null) {
-//            courses = new ArrayList<>();
-//        }
-//        courses.add(tempCourse);
-//        tempCourse.setInstructor(this);
-//    }
 }
